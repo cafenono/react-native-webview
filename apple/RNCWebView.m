@@ -401,8 +401,8 @@ RCTAutoInsetsProtocol>
     wkWebViewConfig.applicationNameForUserAgent = [NSString stringWithFormat:@"%@ %@", wkWebViewConfig.applicationNameForUserAgent, _applicationNameForUserAgent];
   }
 
-  if (_assetSchcme) {
-    [wkWebViewConfig setURLSchemeHandler:[RNCWebViewAssetSchemeHandler new] forURLScheme:_assetSchcme];
+  if (_assetScheme) {
+    [wkWebViewConfig setURLSchemeHandler:[RNCWebViewAssetSchemeHandler new] forURLScheme:_assetScheme];
   }
     
   

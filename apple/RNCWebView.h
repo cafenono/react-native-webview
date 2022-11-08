@@ -81,7 +81,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *_Nonnull)request
 @property (nonatomic, assign) BOOL enableApplePay;
 @property (nonatomic, copy) NSArray<NSDictionary *> * _Nullable menuItems;
 @property (nonatomic, copy) RCTDirectEventBlock onCustomMenuSelection;
-@property (nonatomic, copy) NSString * _Nullable assetSchcme;
+@property (nonatomic, copy) NSString * _Nullable assetScheme;
 #if !TARGET_OS_OSX
 @property (nonatomic, weak) UIRefreshControl * _Nullable refreshControl;
 #endif
