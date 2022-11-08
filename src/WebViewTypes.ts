@@ -742,6 +742,8 @@ export interface IOSWebViewProps extends WebViewSharedProps {
    * `selectedText`: the text selected on the document
    */
   onCustomMenuSelection?: (event: WebViewEvent) => void;
+
+  assetScheme?: string;
 }
 
 export interface MacOSWebViewProps extends WebViewSharedProps {

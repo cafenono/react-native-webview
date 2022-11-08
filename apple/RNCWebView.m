@@ -9,6 +9,8 @@
 #import <React/RCTConvert.h>
 #import <React/RCTAutoInsetsProtocol.h>
 #import "RNCWKProcessPoolManager.h"
+#import "RNCWebViewAssetSchemeHandler.h"
+
 #if !TARGET_OS_OSX
 #import <UIKit/UIKit.h>
 #else
@@ -398,6 +400,11 @@ RCTAutoInsetsProtocol>
   if (_applicationNameForUserAgent) {
     wkWebViewConfig.applicationNameForUserAgent = [NSString stringWithFormat:@"%@ %@", wkWebViewConfig.applicationNameForUserAgent, _applicationNameForUserAgent];
   }
+
+  if (_assetSchcme) {
+    [wkWebViewConfig setURLSchemeHandler:[RNCWebViewAssetSchemeHandler new] forURLScheme:_assetSchcme];
+  }
+    
   
   return wkWebViewConfig;
 }

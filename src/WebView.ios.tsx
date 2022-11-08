@@ -89,6 +89,7 @@ const WebViewComponent = forwardRef<{}, IOSWebViewProps>(({
   incognito,
   decelerationRate: decelerationRateProp,
   onShouldStartLoadWithRequest: onShouldStartLoadWithRequestProp,
+  assetScheme,
   ...otherProps
 }, ref) => {
   const webViewRef = useRef<NativeWebViewIOS | null>(null);
