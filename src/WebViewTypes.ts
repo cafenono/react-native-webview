@@ -1119,6 +1119,8 @@ export interface AndroidWebViewProps extends WebViewSharedProps {
    * @platform android
    */
   lackPermissionToDownloadMessage?: string;
+
+  assetDomain?: string;
 }
 
 export interface WebViewSharedProps extends ViewProps {

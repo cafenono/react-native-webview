@@ -49,6 +49,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewFeature;
 
 import com.facebook.common.logging.FLog;
@@ -165,6 +166,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
   protected @Nullable String mUserAgentWithApplicationName = null;
   protected @Nullable String mDownloadingMessage = null;
   protected @Nullable String mLackPermissionToDownloadMessage = null;
+  protected @Nullable String mAssetDomain = null;
 
   public RNCWebViewManager() {
     mWebViewConfig = new WebViewConfig() {
@@ -274,6 +276,11 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
   @ReactProp(name = "javaScriptEnabled")
   public void setJavaScriptEnabled(WebView view, boolean enabled) {
     view.getSettings().setJavaScriptEnabled(enabled);
+  }
+
+  @ReactProp(name ="assetDomain")
+  public void setAssetDomain(WebView view, String domain) {
+    mAssetDomain = domain;
   }
 
   @ReactProp(name = "setBuiltInZoomControls")
@@ -673,7 +680,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
   @Override
   protected void addEventEmitters(ThemedReactContext reactContext, WebView view) {
     // Do not register default touch emitter and let WebView implementation handle touches
-    view.setWebViewClient(new RNCWebViewClient());
+    view.setWebViewClient(new RNCWebViewClient(reactContext, mAssetDomain));
   }
 
   @Override
@@ -902,12 +909,33 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     protected @Nullable String ignoreErrFailedForThisURL = null;
     protected @Nullable BasicAuthCredential basicAuthCredential = null;
 
+    private WebViewAssetLoader assetLoader;
     public void setIgnoreErrFailedForThisURL(@Nullable String url) {
       ignoreErrFailedForThisURL = url;
     }
 
     public void setBasicAuthCredential(@Nullable BasicAuthCredential credential) {
       basicAuthCredential = credential;
+    }
+
+    public RNCWebViewClient(ThemedReactContext context, String domain) {
+        super();
+        assetLoader = new WebViewAssetLoader.Builder()
+         .setDomain(domain)
+         .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(context))
+         .build();
+    }
+
+    @Override
+    @RequiresApi(21)
+    public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+        return assetLoader.shouldInterceptRequest(request.getUrl());
+    }
+
+    @Override
+    @SuppressWarnings("deprecation") // for API < 21
+    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        return assetLoader.shouldInterceptRequest(Uri.parse(url));
     }
 
     @Override
