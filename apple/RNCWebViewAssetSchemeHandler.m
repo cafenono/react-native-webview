@@ -21,7 +21,7 @@
     }
 
     NSString *pathExtension = [requestURL pathExtension];
-    NSString *path = [[[requestURL path] stringByReplacingOccurrencesOfString:@"/" withString:@""] stringByDeletingPathExtension];
+    NSString *path = [[[requestURL path] substringFromIndex:1] stringByDeletingPathExtension];
 
     if (path == nil || pathExtension == nil) {
         NSError *error = [NSError errorWithDomain:[[NSBundle mainBundle] bundleIdentifier] code:400 userInfo:nil];
