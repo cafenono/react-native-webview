@@ -20,6 +20,7 @@ import LocalPageLoad from './examples/LocalPageLoad';
 import Messaging from './examples/Messaging';
 import NativeWebpage from './examples/NativeWebpage';
 import ApplePay from './examples/ApplePay';
+import CustomMenu from './examples/CustomMenu';
 
 const TESTS = {
   Messaging: {
@@ -101,11 +102,19 @@ const TESTS = {
     render() {
       return <ApplePay />;
     },
+  },
+  CustomMenu: {
+    title: 'Custom Menu',
+    testId: 'CustomMenu',
+    description: 'Test to custom context menu shown on highlighting text',
+    render() {
+      return <CustomMenu />;
+    },
   }
 };
 
-type Props = {};
-type State = {restarting: boolean; currentTest: Object};
+interface Props {}
+interface State {restarting: boolean; currentTest: Object}
 
 export default class App extends Component<Props, State> {
   state = {
@@ -165,14 +174,12 @@ export default class App extends Component<Props, State> {
             title="LocalPageLoad"
             onPress={() => this._changeTest('PageLoad')}
           />
-          {Platform.OS == 'ios' && (
-            <Button
-              testID="testType_downloads"
-              title="Downloads"
-              onPress={() => this._changeTest('Downloads')}
-            />
-          )}
-          {Platform.OS === 'android' && (
+          <Button
+            testID="testType_downloads"
+            title="Downloads"
+            onPress={() => this._changeTest('Downloads')}
+          />
+          {(Platform.OS === 'android' || Platform.OS === 'macos') && (
             <Button
               testID="testType_uploads"
               title="Uploads"
@@ -196,6 +203,11 @@ export default class App extends Component<Props, State> {
                   onPress={() => this._changeTest('ApplePay')}
               />
           )}
+          <Button
+            testID="testType_customMenu"
+            title="CustomMenu"
+            onPress={() => this._changeTest('CustomMenu')}
+          />
         </View>
 
         {restarting ? null : (
