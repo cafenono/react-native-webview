@@ -44,7 +44,15 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 
 @end
 
+#if !TARGET_OS_OSX
+@interface RNCWebViewImpl : RCTView <UIEditMenuInteractionDelegate>
+
+@property (nonatomic, nullable) UIEditMenuInteraction *editMenuInteraction API_AVAILABLE(ios(16.0));
+#else
 @interface RNCWebViewImpl : RCTView
+#endif // !TARGET_OS_OSX
+
+
 @property (nonatomic, copy) RCTDirectEventBlock onFileDownload;
 @property (nonatomic, copy) RCTDirectEventBlock onLoadingStart;
 @property (nonatomic, copy) RCTDirectEventBlock onLoadingFinish;
@@ -55,6 +63,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 @property (nonatomic, copy) RCTDirectEventBlock onMessage;
 @property (nonatomic, copy) RCTDirectEventBlock onScroll;
 @property (nonatomic, copy) RCTDirectEventBlock onContentProcessDidTerminate;
+@property (nonatomic, copy) RCTDirectEventBlock onOpenWindow;
 
 
 @property (nonatomic, weak) id<RNCWebViewDelegate> _Nullable delegate;
@@ -64,6 +73,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 @property (nonatomic, copy) NSString * _Nullable injectedJavaScriptBeforeContentLoaded;
 @property (nonatomic, assign) BOOL injectedJavaScriptForMainFrameOnly;
 @property (nonatomic, assign) BOOL injectedJavaScriptBeforeContentLoadedForMainFrameOnly;
+@property (nonatomic, copy) NSString * _Nullable injectedJavaScriptObject;
 @property (nonatomic, assign) BOOL scrollEnabled;
 @property (nonatomic, assign) BOOL sharedCookiesEnabled;
 @property (nonatomic, assign) BOOL autoManageStatusBarEnabled;
@@ -98,6 +108,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 @property (nonatomic, assign) BOOL pullToRefreshEnabled;
 @property (nonatomic, assign) BOOL enableApplePay;
 @property (nonatomic, copy) NSArray<NSDictionary *> * _Nullable menuItems;
+@property (nonatomic, copy) NSArray<NSString *> * _Nullable suppressMenuItems;
 @property (nonatomic, copy) RCTDirectEventBlock onCustomMenuSelection;
 #if !TARGET_OS_OSX
 @property (nonatomic, assign) WKDataDetectorTypes dataDetectorTypes;
@@ -134,6 +145,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 - (void)reload;
 - (void)stopLoading;
 - (void)requestFocus;
+- (void)clearCache:(BOOL)includeDiskFiles;
 #ifdef RCT_NEW_ARCH_ENABLED
 - (void)destroyWebView;
 #endif
