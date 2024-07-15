@@ -1,6 +1,6 @@
 {
-  "name": "react-native-webview",
-  "description": "React Native WebView component for iOS, Android, macOS, and Windows",
+  "name": "@cafenono/react-native-webview",
+  "description": "React Native WebView component for iOS, Android, macOS, and Windows For Cafenono-app",
   "main": "index.js",
   "main-internal": "src/index.ts",
   "react-native": "src/index.ts",
